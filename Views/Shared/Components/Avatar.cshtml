@@ -1,0 +1,15 @@
+﻿@using Microsoft.AspNetCore.Identity
+@using cis2055_nemesys.Models
+
+@inject UserManager<User> UserManager
+
+@{
+    var user = await UserManager.GetUserAsync(User);
+}
+
+<a asp-area="Identity" asp-page="/Account/Manage/Index" class="avatar">
+    @if (user != null || user?.FullName != null || user?.FullName != "")
+    {
+    <span>@user?.FullName.Substring(0, 1).ToUpper()</span>
+    }
+</a>

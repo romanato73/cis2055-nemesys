@@ -1,0 +1,20 @@
+﻿@using Microsoft.AspNetCore.Identity
+@using cis2055_nemesys.Models
+
+@inject UserManager<User> UserManager
+
+@if (User.IsInRole("Reporter"))
+{
+    <a asp-controller="Dashboard" asp-action="Index" class="menu-link">Dashboard</a>
+    <a asp-controller="Dashboard" asp-action="MyReports" class="menu-link">My Reports</a>
+}
+else if (User.IsInRole("Investigator"))
+{
+    <a asp-controller="Dashboard" asp-action="Index" class="menu-link">Dashboard</a>
+    <a asp-controller="Investigation" asp-action="Index" class="menu-link">My Investigations</a>
+}
+else if (User.IsInRole("Admin"))
+{
+    <a asp-controller="Dashboard" asp-action="Index" class="menu-link">Dashboard</a>
+    <a asp-controller="Admin" asp-action="Index" class="menu-link">Admin</a>
+}

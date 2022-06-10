@@ -1,0 +1,92 @@
+﻿@using Microsoft.AspNetCore.Identity
+@using cis2055_nemesys.Models
+
+@inject UserManager<User> UserManager
+
+@{
+    var user = await UserManager.GetUserAsync(User);
+}
+
+<div class="sidebar collapse collapse-horizontal d-lg-block" data-user-id="@user.Id">
+    <div class="wrapper d-flex gap-3 d-lg-none">
+        <partial name="Components/MenuLinks" />
+    </div>
+
+    <div class="wrapper d-flex align-items-start flex-column gap-4">
+        <div class="d-flex align-items-center gap-4 w-100">
+            <partial name="Components/Avatar" />
+            <div class="d-flex flex-column">
+                <div class="fw-bold">@user?.FullName</div>
+                <div>@user?.Email</div>
+            </div>
+        </div>
+
+        <div class="d-flex flex-column gap-2 w-100">
+            @if (User.IsInRole("Reporter"))
+                {
+                <a asp-action="Create" asp-controller="Report" class="btn btn-primary w-100">Create Report</a>
+                }
+
+            <form class="form-inline" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home")" method="post">
+                <button type="submit" class="btn btn-secondary w-100">Log out</button>
+            </form>
+        </div>
+
+        @if (User.IsInRole("Reporter") || User.IsInRole("Investigator"))
+        {
+            <div class="d-flex flex-column w-100 gap-3">
+                <div class="d-flex align-items-center">
+                    <i class="fas fa-user-shield me-2" style="width: 25px;"></i>
+                    <span id="sidebar-stats-total-reports" class="me-1"></span>
+                    @if (User.IsInRole("Reporter"))
+                    {
+                        @("Reports")
+                    }
+                    else if (User.IsInRole("Investigator"))
+                    {
+                        @("Investigations")
+                    }
+
+                </div>
+                <div class="d-flex align-items-center">
+                    <i class="fas fa-ranking-star me-2" style="width: 25px;"></i> #1
+                </div>
+            </div>
+        }
+    </div>
+    @if (User.IsInRole("Reporter") || User.IsInRole("Investigator"))
+    {
+        <div class="wrapper">
+            <div class="d-flex flex-column w-100 gap-3">
+                <div class="d-flex align-items-center justify-content-between">
+                    <div>
+                        <i class="fas fa-circle text-xs text-report-Open me-2" style="width: 25px;"></i>
+                        Open
+                    </div>
+                    <div id="sidebar-stats-open-reports">0</div>
+                </div>
+                <div class="d-flex align-items-center justify-content-between">
+                    <div>
+                        <i class="fas fa-circle text-xs text-report-BeingInvestigated me-2" style="width: 25px;"></i>
+                        Being investigated
+                    </div>
+                    <div id="sidebar-stats-investigated-reports">O</div>
+                </div>
+                <div class="d-flex align-items-center justify-content-between">
+                    <div>
+                        <i class="fas fa-circle text-xs text-report-NoActionRequired me-2" style="width: 25px;"></i>
+                        No action required
+                    </div>
+                    <div id="sidebar-stats-noaction-reports">0</div>
+                </div>
+                <div class="d-flex align-items-center justify-content-between">
+                    <div>
+                        <i class="fas fa-circle text-xs text-report-Closed me-2" style="width: 25px;"></i>
+                        Closed
+                    </div>
+                    <div id="sidebar-stats-closed-reports">0</div>
+                </div>
+            </div>
+        </div>
+    }
+    </div>

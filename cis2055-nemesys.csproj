@@ -12,6 +12,18 @@
     <None Remove="Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation" />
     <None Remove="Microsoft.EntityFrameworkCore.SqlServer" />
     <None Remove="Microsoft.VisualStudio.Web.CodeGeneration.Design" />
+    <None Remove="Views\Dashboard\" />
+    <None Remove="Views\Reports\" />
+    <None Remove="Migrations\" />
+    <None Remove="Models\Repositories\" />
+    <None Remove="Models\Interfaces\" />
+    <None Remove="ViewModels\" />
+    <None Remove="Models\Enums\" />
+    <None Remove="ViewModels\Api\" />
+    <None Remove="Views\Investigation\" />
+    <None Remove="Views\Admin\" />
+    <None Remove="ViewModels\Admin\" />
+    <None Remove="Helpers\" />
   </ItemGroup>
   <ItemGroup>
     <None Update="app.db" CopyToOutputDirectory="PreserveNewest" ExcludeFromSingleFile="true" />
@@ -26,6 +38,31 @@
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation" Version="6.0.5" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="6.0.5" />
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="6.0.5" />
+    <PackageReference Include="MySql.Data" Version="8.0.29" />
+    <PackageReference Include="Pomelo.EntityFrameworkCore.MySql" Version="6.0.1" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Views\Dashboard\" />
+    <Folder Include="Views\Report\" />
+    <Folder Include="Migrations\" />
+    <Folder Include="Models\Repositories\" />
+    <Folder Include="Models\Interfaces\" />
+    <Folder Include="ViewModels\" />
+    <Folder Include="Models\Enums\" />
+    <Folder Include="ViewModels\Api\" />
+    <Folder Include="Views\Investigation\" />
+    <Folder Include="wwwroot\lib\axios\" />
+    <Folder Include="wwwroot\images\" />
+    <Folder Include="wwwroot\images\reports\" />
+    <Folder Include="Views\Admin\" />
+    <Folder Include="ViewModels\Admin\" />
+    <Folder Include="Helpers\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Remove="wwwroot\lib\axios\" />
+    <Content Remove="wwwroot\images\" />
+    <Content Remove="wwwroot\images\reports\" />
+    <Content Remove="Areas\Identity\Pages\Account\Manage\ManageNav.cshtml" />
+  </ItemGroup>
 </Project>

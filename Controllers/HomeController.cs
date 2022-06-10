@@ -1,26 +1,30 @@
 ﻿using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
 using cis2055_nemesys.Models;
+using Microsoft.AspNetCore.Identity;
 
 namespace cis2055_nemesys.Controllers;
 
 public class HomeController : Controller
 {
-    private readonly ILogger<HomeController> _logger;
+    private SignInManager<User> _signInManager;
 
-    public HomeController(ILogger<HomeController> logger)
+    public HomeController(SignInManager<User> signInManager)
     {
-        _logger = logger;
+        _signInManager = signInManager;
+        
     }
 
+    /// <summary>
+    /// Redirect to Dashboard if signed in otherwise redirect to login page.
+    /// </summary>
     public IActionResult Index()
     {
-        return View();
-    }
+        if (_signInManager.IsSignedIn(User)) {
+            return RedirectToAction(actionName: "Index", controllerName: "Dashboard");
+        }
 
-    public IActionResult Privacy()
-    {
-        return View();
+        return Redirect("/Identity/Account/Login");
     }
 
     [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]

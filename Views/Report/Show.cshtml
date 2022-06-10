@@ -1,0 +1,165 @@
+﻿@model ReportViewModel;
+
+@using Microsoft.AspNetCore.Identity
+@using cis2055_nemesys.Models
+@using cis2055_nemesys.Helpers
+
+@inject UserManager<User> UserManager
+
+@{
+    ViewData["Title"] = "Report Details";
+}
+
+<section class="section">
+    <div class="section__header">
+        <h5 class="section__title">
+            @ViewData["Title"]
+            <span class="text-light">#@Model.Id</span>
+        </h5>
+        <div>
+            @if (UserManager.GetUserId(User) == Model.User.Id)
+            {
+                // User is owner of the report
+                <a asp-action="Edit" asp-controller="Report" asp-route-id="@Model.Id" class="btn btn-warning">
+                    Edit
+                </a>
+                <a asp-action="Delete" asp-controller="Report" asp-route-id="@Model.Id" class="btn btn-danger">
+                    Delete
+                </a>
+            }
+            else if (User.IsInRole("Investigator"))
+            {
+                // User is investigator
+                if (Model.Investigation != null)
+                {
+                    if (UserManager.GetUserId(User) == Model.Investigation.User.Id)
+                    {
+                        // Investigator that reviews this report
+                        <a asp-action="Edit" asp-controller="Investigation" asp-route-id="@Model.Investigation.Id" class="btn btn-warning">
+                            Edit Investigation
+                        </a>
+                    } else
+                    {
+                        <span>Investigator: @Model.Investigation.User.FullName</span>
+                    }
+                }
+                else
+                {
+                    // This report does not have any investigator
+                    <a asp-action="Create" asp-controller="Investigation" asp-route-reportId="@Model.Id" class="btn btn-primary">
+                        Create Investigation
+                    </a>
+                }
+            }
+            else if (User.IsInRole("Reporter"))
+            {
+                // User can toggle upvote of the report
+                @if (Model.UserHasUpvoted)
+                {
+                    <form asp-action="Delete" asp-controller="Upvote" asp-route-reportId="@Model.Id" class="d-inline">
+                        <button type="submit" class="btn">
+                            <i class="fas fa-thumbs-down fa-lg text-red-500"></i>
+                        </button>
+                    </form>
+                }
+                else
+                {
+                    <form asp-action="Create" asp-controller="Upvote" asp-route-reportId="@Model.Id" class="d-inline">
+                        <button type="submit" class="btn">
+                            <i class="fas fa-thumbs-up fa-lg text-primary"></i>
+                        </button>
+                    </form>
+                }
+            }
+            <span class="ms-2">
+                <b>@Model.UpvotesCount</b>
+                Upvotes
+            </span>
+        </div>
+    </div>
+
+    <div class="wrapper">
+        <div class="row row-cols-md-2">
+            <div class="col-sm-6 gap-2">
+                <div class="report-detail-label">Type of hazard</div>
+                <div class="report-detail">@Model.Type</div>
+
+                <div class="report-detail-label">Location</div>
+                <div class="report-detail">@Model.Location</div>
+
+                <div class="report-detail-label">Spotted</div>
+                <div class="report-detail">@Model.Spotted</div>
+
+                <div class="report-detail-label">Status</div>
+                <div class="report-detail text-report-@Model.Status fw-bold">
+                    @ReportStatusHelper.TranslateReportStatus(Model.Status)
+                </div>
+
+                <div class="report-detail-label">Description</div>
+                <div class="report-detail">@Model.Description</div>
+
+                <div class="report-detail-label">Report Created</div>
+                <div class="report-detail">@Model.CreatedDate</div>
+
+                <div class="report-detail-label">Report Updated</div>
+                <div class="report-detail">@Model.UpdatedDate</div>
+
+                @if (Model.Image != null)
+                {
+                    <div class="report-detail-label">Image</div>
+                    <div class="report-detail">
+                        <img src="@Model.Image" alt="Report image" style="max-width: 300px;" />
+                    </div>
+                }
+            </div>
+            <div class="col-sm-6">
+                <div class="report-detail-label">Reported at</div>
+                <div class="report-detail">@Model.CreatedDate</div>
+
+                <div class="report-detail-label">Reported by</div>
+                <div class="report-detail">@Model.User.FullName</div>
+
+                <div class="report-detail-label">Email</div>
+                <div class="report-detail">@Model.User.Email</div>
+
+                <div class="report-detail-label">Phone</div>
+                <div class="report-detail">@(Model.User.PhoneNumber ?? "-")</div>
+            </div>
+        </div>
+
+        @if (Model.Investigation != null)
+        {
+        <div>
+            <hr />
+            <h2 class="fw-bold">Investigation</h2>
+
+            <div class="row">
+                <div class="col-sm-6">
+                    <div class="report-detail-label">Description</div>
+                    <div class="report-detail">@Model.Investigation.Description</div>
+
+                    <div class="report-detail-label">Action Date</div>
+                    <div class="report-detail">@Model.Investigation.ActionDate</div>
+
+                    <div class="report-detail-label">Investigation Created</div>
+                    <div class="report-detail">@Model.Investigation.CreatedDate</div>
+
+                    <div class="report-detail-label">Investigation Updated</div>
+                    <div class="report-detail">@Model.Investigation.UpdatedDate</div>
+                </div>
+
+                <div class="col-sm-6">
+                    <div class="report-detail-label">Investigator</div>
+                    <div class="report-detail">@Model.Investigation.User.FullName</div>
+
+                    <div class="report-detail-label">Investigator's Email</div>
+                    <div class="report-detail">@Model.Investigation.User.Email</div>
+
+                    <div class="report-detail-label">Investigator's Phone</div>
+                    <div class="report-detail">@(Model.Investigation.User.PhoneNumber ?? "-")</div>
+                </div>
+            </div>
+        </div>
+        }
+    </div>
+</section>

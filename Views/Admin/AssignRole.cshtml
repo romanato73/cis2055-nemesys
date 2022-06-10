@@ -1,0 +1,69 @@
+﻿@model AssignRoleViewModel;
+
+@using Microsoft.AspNetCore.Identity
+@using cis2055_nemesys.Models
+
+@inject UserManager<User> UserManager
+
+@{
+    ViewData["Title"] = "Admin";
+}
+
+<section class="section">
+    <div class="section__header">
+        <h5 class="section__title">@ViewData["Title"]</h5>
+    </div>
+
+    <form class="wrapper" asp-action="AssignRole" asp-controller="Admin" asp-route-userId="@Model.User.Id" method="post" role="form">
+        <div class="form-section">
+            <div class="form-section__header">
+                <div class="form-section__header--title">User information</div>
+            </div>
+
+            <div class="mb-3">
+                <div>Full Name</div>
+                <div class="fw-bold">@Model.User.FullName</div>
+            </div>
+
+            <div class="mb-3">
+                <div>Email</div>
+                <div class="fw-bold">@Model.User.Email</div>
+            </div>
+
+            <div class="mb-3">
+                <div>Phone Number</div>
+                <div class="fw-bold">@(Model.User.PhoneNumber ?? "-")</div>
+            </div>
+
+            <div class="mb-3">
+                <div>Roles</div>
+                <div class="fw-bold">
+                    @foreach (var role in Model.User.Roles)
+                    {
+                        <span>@role</span>
+                    }
+                </div>
+            </div>
+        </div>
+
+        <div class="form-section">
+            <div class="form-section__header">
+                <div class="form-section__header--title">Assign Role</div>
+            </div>
+
+            <div class="mb-3">
+                <label asp-for="RoleId" class="form-label">Role</label>
+                <select asp-for="RoleId" class="form-control">
+                    @foreach (var role in Model.Roles)
+                    {
+                        <option value="@role.Id">@role.Name</option>
+                    }
+                </select>
+            </div>
+
+            <div class="d-flex justify-content-end">
+                <button type="submit" class="btn btn-primary">Assign</button>
+            </div>
+        </div>
+    </form>
+</section>

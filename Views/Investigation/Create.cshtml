@@ -1,0 +1,60 @@
+﻿@model InvestigationFormViewModel
+
+@using cis2055_nemesys.Models.Enums
+@using cis2055_nemesys.Helpers
+
+@{
+    ViewData["Title"] = "Create Investigation";
+
+    var reportId = ViewContext.RouteData.Values["reportId"];
+}
+
+<section class="section">
+    <div class="section__header">
+        <h5 class="section__title">
+            @ViewData["Title"]
+            for Report
+            <span class="text-light">
+                #@reportId
+            </span>
+        </h5>
+    </div>
+
+    <form class="wrapper" asp-action="Create" method="post" role="form">
+        <input type="hidden" asp-for="ReportId" value="@reportId" />
+
+        <div class="form-section">
+            <div class="form-section__header">
+                <div class="form-section__header--title">Investigation information</div>
+                <div class="form-section__header--note">Provide the date and time of the action and description.</div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="mb-3">
+                        <label asp-for="ActionDate" class="form-label">Action Date</label>
+                        <input type="date" asp-for="ActionDate" class="form-control">
+                        <span asp-validation-for="ActionDate" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="mb-3">
+                        <label asp-for="ActionTime" class="form-label">Action Time</label>
+                        <input type="time" asp-for="ActionTime" class="form-control">
+                        <span asp-validation-for="ActionTime" class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="mb-3">
+                <label asp-for="Description" class="form-label">Description</label>
+                <textarea class="form-control" asp-for="Description" placeholder="..."></textarea>
+                <span asp-validation-for="Description" class="text-danger"></span>
+            </div>
+        </div>
+
+        <div class="form-section__footer">
+            <button type="submit" class="btn btn-primary">Create Invstigation</button>
+        </div>
+    </form>
+</section>

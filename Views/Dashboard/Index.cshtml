@@ -1,0 +1,84 @@
+﻿@model ReportListViewModel;
+
+@using Microsoft.AspNetCore.Identity
+@using cis2055_nemesys.Models
+
+@inject UserManager<User> UserManager
+
+@{
+    ViewData["Title"] = "Dashboard";
+    var showAll = Context.Request.Query["showAll"];
+    var inChecked = showAll == "true";
+}
+
+<section class="section">
+    <div class="section__header">
+        <h5 class="section__title">Reports</h5>
+        <form method="get">
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" value="true" id="showAll" name="showAll"
+                       onchange="this.form.submit()" @(inChecked ? "checked" : "")>
+                <label class="form-check-label" for="showAll">
+                    Show all
+                </label>
+            </div>
+        </form>
+    </div>
+
+    <div class="reports">
+        @foreach (var report in Model.Reports)
+        {
+        <div class="report">
+            <a asp-action="Show" asp-controller="Report" asp-route-id="@report.Id" class="report__link">
+                <div class="report__header">
+                    <div class="d-flex flex-col align-items-center">
+                        <div class="report__header--status d-flex" data-status="@report.Status">
+                            @if (report.Status == cis2055_nemesys.Models.Enums.ReportStatus.Open)
+                            {
+                                <span class="status-animate-ping"></span>
+                            }
+                            <span class="status-static-ping"></span>
+                        </div>
+                        <div class="report__header--type">@report.Type</div>
+                    </div>
+                    <div class="report__header--user">
+                        @if (report.User.Id != UserManager.GetUserId(User))
+                        {
+                            @report.User.FullName
+                        }
+                        else
+                        {
+                            @("You");
+                        }
+                    </div>
+                </div>
+
+                <div class="report__body">
+                    <div class="report__body--description">@report.Description</div>
+                    <div class="report__body--info">
+                        <div>@report.Location</div>
+                        <i class="fas fa-circle text-xxs"></i>
+                        <div>@report.CreatedDate</div>
+                    </div>
+                </div>
+            </a>
+
+            @if (UserManager.GetUserId(User) == report.User.Id)
+            {
+                <div class="report__actions">
+                    <form asp-action="Delete" asp-controller="Report" asp-route-id="@report.Id" method="post" class="d-flex" style="flex-basis: 100%">
+                        <button type="submit" class="report__action report__action--delete btn">
+                            <i class="fas fa-trash-alt me-lg-2"></i>
+                            <span class="d-none d-lg-inline">Delete</span>
+                        </button>
+                    </form>
+                    <a asp-action="Edit" asp-controller="Report" asp-route-id="@report.Id" class="report__action report__action--edit btn">
+                        <i class="fas fa-edit me-lg-2"></i>
+                        <span class="d-none d-lg-inline">Edit</span>
+                    </a>
+                </div>
+            }
+        </div>
+        }
+    </div>
+</section>

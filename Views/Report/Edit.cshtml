@@ -1,0 +1,74 @@
+﻿@model ReportEditViewModel
+
+@{
+    ViewData["Title"] = "Edit Report";
+}
+
+<section class="section">
+    <div class="section__header">
+        <h5 class="section__title">
+            @ViewData["Title"]
+            <span class="text-light">@Model.Id</span>
+        </h5>
+    </div>
+
+    <form class="wrapper" asp-action="Edit" method="post" role="form" enctype="multipart/form-data">
+        <div class="form-section">
+            <div class="form-section__header">
+                <div class="form-section__header--title">Main information</div>
+                <div class="form-section__header--note">Provide the location, date and time of the spotted hazard.</div>
+            </div>
+
+            <div class="mb-3">
+                <label for="Location" class="form-label">Location</label>
+                <input type="text" asp-for="Location" class="form-control" id="location" placeholder="e.g. ICT Front Entrance" value="@Model.Location">
+                <span asp-validation-for="Location" class="text-danger"></span>
+            </div>
+
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="mb-3">
+                        <label for="date" class="form-label">Date</label>
+                        <input type="date" asp-for="Date" class="form-control" id="date" value="@Model.Date">
+                        <span asp-validation-for="Date" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="mb-3">
+                        <label for="time" class="form-label">Time</label>
+                        <input type="time" asp-for="Time" class="form-control" id="time" value="@Model.Time">
+                        <span asp-validation-for="Time" class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="form-section">
+            <div class="form-section__header">
+                <div class="form-section__header--title">Report details</div>
+                <div class="form-section__header--note">Provide the type of hazard and its description.</div>
+            </div>
+
+            <div class="mb-3">
+                <label for="type" class="form-label">Type</label>
+                <input type="text" asp-for="Type" class="form-control" id="type" placeholder="e.g. Unsafe Act" value="@Model.Type">
+                <span asp-validation-for="Type" class="text-danger"></span>
+            </div>
+
+            <div class="mb-3">
+                <label for="description" class="form-label">Description</label>
+                <textarea class="form-control" asp-for="Description" id="description" placeholder="...">@Model.Description</textarea>
+                <span asp-validation-for="Description" class="text-danger"></span>
+            </div>
+
+            <div class="mb-3">
+                <img src="@Model.Image" alt="Image report" class="form-image-preview" />
+                <label for="photo" class="form-label">Photo (optional)</label>
+            </div>
+        </div>
+
+        <div class="form-section__footer">
+            <button type="submit" class="btn btn-primary">Update Report</button>
+        </div>
+    </form>
+</section>

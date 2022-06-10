@@ -1,0 +1,72 @@
+﻿@model UserListViewModel;
+
+@using Microsoft.AspNetCore.Identity
+@using cis2055_nemesys.Models
+
+@inject UserManager<User> UserManager
+
+@{
+    ViewData["Title"] = "Admin";
+}
+
+@functions {
+    public bool UserIsInRole(UserViewModel user, string role)
+    {
+        return user.Roles.FirstOrDefault(role).Equals(role);
+    }
+}
+
+<section class="section">
+    <div class="section__header">
+        <h5 class="section__title">@ViewData["Title"]</h5>
+    </div>
+
+    <div class="user-list">
+        @foreach (var user in Model.Users)
+        {
+        <div class="user">
+            <div class="user__details">
+                <div class="user__details--name">
+                    @if (UserIsInRole(user, "Reporter"))
+                    {
+                        <span class="badge bg-green-100 text-green-700">Reporter</span>
+                    }
+                    else if (UserIsInRole(user, "Investigator"))
+                    {
+                        <span class="badge bg-orange-100 text-orange-700">Investigator</span>
+                    }
+                    else if (UserIsInRole(user, "Admin"))
+                    {
+                        <span class="badge bg-blue-100 text-blue-700">Admin</span>
+                    }
+                    else
+                    {
+                        <span class="badge bg-gray-100 text-gray-700">Guest</span>
+                        <span class="badge bg-red-100 text-red-700">No Access</span>
+                    }
+                    @user.FullName
+                </div>
+                <div class="user__details--email">@user.Email</div>
+            </div>
+            <div class="user__action">
+                @if (UserIsInRole(user, "Guest"))
+                {
+                    <a asp-action="AssignRole" asp-route-userId="@user.Id" class="btn btn-primary">
+                        Assign Role
+                    </a>
+                }
+                else if (UserIsInRole(user, "Admin") && user.Email == "admin@nemesys.com")
+                {
+                    <small class="text-red-500">Main Admin</small>
+                }
+                else
+                {
+                    <a asp-action="AssignRole" asp-route-userId="@user.Id" class="btn btn-secondary">
+                        Edit Roles
+                    </a>
+                }
+            </div>
+        </div>
+        }
+    </div>
+</section>

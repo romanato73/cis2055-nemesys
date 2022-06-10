@@ -1,40 +1,108 @@
-﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using cis2055_nemesys.Data;
+using cis2055_nemesys.Models;
+using cis2055_nemesys.Models.Interfaces;
+using cis2055_nemesys.Models.Repositories;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
-builder.Services.AddDbContext<ApplicationDbContext>(options =>
-    options.UseSqlite(connectionString));
-builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
-builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
+builder.Services
+    .AddControllersWithViews()
+    .AddRazorRuntimeCompilation();
+
+builder.Services.AddTransient<INemesysRepository, NemesysRepository>();
+
+/**
+ * +---------------------------------------------------------------+
+ * |                     IDENTITY FRAMEWORK                        |
+ * +---------------------------------------------------------------+
+ */
+
+builder.Services.AddDefaultIdentity<User>(options =>
+{
+    options.SignIn.RequireConfirmedAccount = false;
+
+    // Password
+    options.Password.RequireDigit = true;
+    options.Password.RequireLowercase = true;
+    options.Password.RequireNonAlphanumeric = true;
+    options.Password.RequireUppercase = true;
+    options.Password.RequiredLength = 6;
+    options.Password.RequiredUniqueChars = 1;
+
+    // User settings.
+    options.User.AllowedUserNameCharacters =
+    "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-._@+";
+    options.User.RequireUniqueEmail = true;
+})
+    .AddRoles<IdentityRole>()
     .AddEntityFrameworkStores<ApplicationDbContext>();
-builder.Services.AddControllersWithViews();
+
+/**
+ * +---------------------------------------------------------------+
+ * |                    COOKIE/SESSION POLICY                      |
+ * +---------------------------------------------------------------+
+ */
+
+builder.Services.ConfigureApplicationCookie(options =>
+{
+    options.Cookie.HttpOnly = true;
+    options.ExpireTimeSpan = TimeSpan.FromMinutes(5);
+    options.SlidingExpiration = true;
+});
+
+/**
+ * +---------------------------------------------------------------+
+ * |                   CONNECTION CONFIGURATION                    |
+ * +---------------------------------------------------------------+
+ */
+
+// SQL Server
+builder.Services.AddDbContext<ApplicationDbContext>(options =>
+    options.UseSqlServer(connectionString)
+);
+
+// MySQL Server
+//builder.Services.AddDbContext<ApplicationDbContext>(options => 
+//    options.UseMysql(connectionString, ServerVersion.AutoDetect(connectionString))
+//);
+
+/**
+ * +---------------------------------------------------------------+
+ * |                      APPLICATION BUILDER                      |
+ * +---------------------------------------------------------------+
+ */
 
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
-{
+if (app.Environment.IsDevelopment()) {
     app.UseMigrationsEndPoint();
-}
-else
-{
+} else {
     app.UseExceptionHandler("/Home/Error");
-    // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
-    app.UseHsts();
 }
 
 app.UseHttpsRedirection();
+app.UseStatusCodePages();
 app.UseStaticFiles();
-
 app.UseRouting();
-
 app.UseAuthentication();
 app.UseAuthorization();
+
+/*
+app.UseEndpoints(endpoints =>
+{
+    endpoints.MapControllerRoute(
+        name: "default",
+        pattern: "{controller=Home}/{action=Index}/{id?}"
+    );
+
+    endpoints.MapRazorPages();
+})
+*/
 
 app.MapControllerRoute(
     name: "default",
@@ -42,4 +110,3 @@ app.MapControllerRoute(
 app.MapRazorPages();
 
 app.Run();
-
