@@ -58,10 +58,10 @@ main {
 }
 
 .sidebar {
-    height: calc(100% - 72px);
+    height: calc(100% - 62px);
     position: absolute;
     left: 0;
-    top: 72px;
+    top: 62px;
     bottom: 0;
     border-right: $border;
     z-index: 5;
@@ -323,6 +323,33 @@ main {
     }
 }
 
+.hof-item {
+    @include wrapper;
+    border-bottom: $border;
+
+    &__name {
+        font-weight: bold;
+    }
+
+    &__rank {
+
+        &[data-rank="1"] {
+            font-size: 1.6rem;
+        }
+
+        &[data-rank="2"] {
+            font-size: 1.4rem;
+        }
+
+        &[data-rank="3"] {
+            font-size: 1.2rem;
+        }
+    }
+
+    &__count {
+    }
+}
+
 .auth-box {
     display: flex;
     justify-content: center;
@@ -437,6 +464,20 @@ main {
 
     &:focus {
         box-shadow: 0 0 0 0.25rem rgba(getColor("orange", 400), 50%);
+    }
+}
+.btn.btn-warning-light {
+    background-color: getColor("orange", 50);
+    border-color: getColor("orange", 50);
+    color: getColor("orange", 700);
+
+    &:hover {
+        background-color: getColor("orange", 100);
+        border-color: getColor("orange", 100);
+    }
+
+    &:focus {
+        box-shadow: 0 0 0 0.25rem rgba(getColor("orange", 100), 50%);
     }
 }
 

@@ -1,3 +1,7 @@
+# custom
+wwwroot/images/reports/
+wwwroot/images/reports/!.gitkeep
+
 # globs
 Makefile.in
 *.userprefs

@@ -458,4 +458,24 @@ public class NemesysRepository : INemesysRepository
             throw;
         }
     }
+
+    /**
+     * +----------------------------------------------------------+
+     * |                       STATISTICS                         |
+     * +----------------------------------------------------------+
+     */
+
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <returns></returns>
+    public IEnumerable<Report> GetReportsForStatistics()
+    {
+        var currentYear = DateTime.Parse(DateTime.Now.Year + "-01-01 00:00");
+
+        return _appDb.Reports
+            .Include(r => r.User)
+            .Where(r => r.CreatedDate > currentYear)
+            .OrderByDescending(r => r.CreatedDate);
+    }
 }

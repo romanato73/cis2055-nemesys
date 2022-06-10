@@ -1,10 +1,10 @@
 ﻿// Axios configuration
 axios.defaults.baseURL = '/api';
 
-const sidebar = document.querySelector('.sidebar');
+const sidebar = document.querySelector('.sidebar.with-stats');
 const navbar = document.querySelector('.navbar');
 
-if (sidebar) {
+if (sidebar !== null) {
     window.addEventListener('scroll', (event) => {
         if (window.scrollY > navbar.getBoundingClientRect().height) {
             sidebar.style.position = "fixed";
@@ -12,8 +12,8 @@ if (sidebar) {
             sidebar.style.height = "100%";
         } else {
             sidebar.style.position = "absolute";
-            sidebar.style.top = "72px";
-            sidebar.style.height = "calc(100% - 72px)";
+            sidebar.style.top = "62px";
+            sidebar.style.height = "calc(100% - 62px)";
         }
     })
 

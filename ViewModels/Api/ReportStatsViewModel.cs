@@ -1,17 +1,10 @@
-﻿namespace cis2055_nemesys.ViewModels
-{
-    public class ReportStatsUser
-    {
-        public string FullName { get; set; }
-        public string Email { get; set; }
-        public int ReportCount { get; set; }
-    }
+﻿#nullable disable
 
+namespace cis2055_nemesys.ViewModels
+{
 	public class ReportStatsViewModel
 	{
-        public int TotalEntries { get; set; }
-
-        public ReportStatsUser[] Users;
+        public IEnumerable<ReportStatViewModel>Users { get; set; }
     }
 }
 

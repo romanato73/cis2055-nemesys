@@ -76,23 +76,26 @@ namespace cis2055_nemesys.Controllers
         /// Get data for Hall of fame.
         /// </summary>
         /// <returns></returns>
-        [Authorize(Roles = "Reporter,Investigator")]
+        [Authorize(Roles = "Reporter,Investigator,Admin")]
         [HttpGet]
         [Route("Statistics")]
         public IActionResult ReportStatistics()
         {
             var repo = _nemesysRepository.GetAllReports(true);
 
-            var data = new ReportListViewModel
+            /*var data = new ReportStatsViewModel
             {
                 TotalEntries = repo.Count(),
-                Reports = repo.Select(r => new ReportViewModel
+                Stats = repo.Select(r => new ReportStatViewModel
                 {
-                    Id = r.Id,
+                    ReportId = r.Id,
+                    UserId = r.User.Id,
+                    FullName = r.User.FullName,
+                    Email = r.User.Email,
                 })
-            };
+            };*/
 
-            return View();
+            return Ok();
         }
     }
 }

@@ -138,11 +138,42 @@ public class DashboardController : Controller
     /// <summary>
     /// Show the hall of fame page
     /// </summary>
-    /*[Authorize]
-    [Route("/dashboard/hall-of-fame")]
+    [Authorize(Roles = "Admin,Reporter,Investigator")]
+    [Route("/Dashboard/Hall-Of-Fame")]
     public IActionResult HallOfFame()
     {
-        return View();
-    }*/
+        var dict = new Dictionary<string, ReportStatViewModel>();
+
+        var repo = _nemesysRepository.GetReportsForStatistics();
+
+        foreach (var record in repo)
+        {
+            var item = dict.GetValueOrDefault(record.UserId);
+
+            if (item == null)
+            {
+                dict.Add(record.UserId, new ReportStatViewModel
+                {
+                    TotalReports = 1,
+                    FullName = record.User.FullName,
+                });
+            } else
+            {
+                item.TotalReports++;
+            }
+        }
+
+        var viewModel = new ReportStatsViewModel
+        {
+            Users = dict.OrderByDescending(item => item.Value.TotalReports).Select(item => new ReportStatViewModel
+            {
+                FullName = item.Value.FullName,
+                UserId = item.Value.UserId,
+                TotalReports = item.Value.TotalReports,
+            })
+        };
+
+        return View(viewModel);
+    }
 }
 

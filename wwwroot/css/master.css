@@ -626,10 +626,10 @@ header .navbar .menu-link:hover {
 }
 
 .sidebar {
-  height: calc(100% - 72px);
+  height: calc(100% - 62px);
   position: absolute;
   left: 0;
-  top: 72px;
+  top: 62px;
   bottom: 0;
   border-right: 1px solid #e5e5e5;
   z-index: 5;
@@ -852,6 +852,22 @@ header .navbar .menu-link:hover {
   font-weight: bold;
 }
 
+.hof-item {
+  padding: 1.5rem;
+  border-bottom: 1px solid #e5e5e5;
+}
+.hof-item__name {
+  font-weight: bold;
+}
+.hof-item__rank[data-rank="1"] {
+  font-size: 1.6rem;
+}
+.hof-item__rank[data-rank="2"] {
+  font-size: 1.4rem;
+}
+.hof-item__rank[data-rank="3"] {
+  font-size: 1.2rem;
+}
 .auth-box {
   display: flex;
   justify-content: center;
@@ -951,6 +967,19 @@ header .navbar .menu-link:hover {
 }
 .btn.btn-warning:focus {
   box-shadow: 0 0 0 0.25rem rgba(251, 146, 60, 0.5);
+}
+
+.btn.btn-warning-light {
+  background-color: #fff7ed;
+  border-color: #fff7ed;
+  color: #c2410c;
+}
+.btn.btn-warning-light:hover {
+  background-color: #ffedd5;
+  border-color: #ffedd5;
+}
+.btn.btn-warning-light:focus {
+  box-shadow: 0 0 0 0.25rem rgba(255, 237, 213, 0.5);
 }
 
 .alert.alert-info {

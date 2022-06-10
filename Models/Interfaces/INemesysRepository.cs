@@ -28,6 +28,9 @@ namespace cis2055_nemesys.Models.Interfaces
 
 		// Admin
 		Task AssignRole(string userId, string Role);
+
+		// Statistics
+		IEnumerable<Report> GetReportsForStatistics();
 	}
 }
 

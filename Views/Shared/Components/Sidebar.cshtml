@@ -7,7 +7,8 @@
     var user = await UserManager.GetUserAsync(User);
 }
 
-<div class="sidebar collapse collapse-horizontal d-lg-block" data-user-id="@user.Id">
+<div class="sidebar collapse collapse-horizontal d-lg-block @(User.IsInRole("Reporter") || User.IsInRole("Investigator") ? "with-stats" : "")"
+     data-user-id="@user.Id">
     <div class="wrapper d-flex gap-3 d-lg-none">
         <partial name="Components/MenuLinks" />
     </div>
@@ -23,9 +24,14 @@
 
         <div class="d-flex flex-column gap-2 w-100">
             @if (User.IsInRole("Reporter"))
-                {
+            {
                 <a asp-action="Create" asp-controller="Report" class="btn btn-primary w-100">Create Report</a>
-                }
+            }
+
+            @if (!User.IsInRole("Guest"))
+            {
+                <a asp-action="HallOfFame" asp-controller="Dashboard" class="btn btn-warning-light w-100">Hall of Fame</a>
+            }
 
             <form class="form-inline" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home")" method="post">
                 <button type="submit" class="btn btn-secondary w-100">Log out</button>
@@ -47,9 +53,6 @@
                         @("Investigations")
                     }
 
-                </div>
-                <div class="d-flex align-items-center">
-                    <i class="fas fa-ranking-star me-2" style="width: 25px;"></i> #1
                 </div>
             </div>
         }
@@ -89,4 +92,4 @@
             </div>
         </div>
     }
-    </div>
+</div>

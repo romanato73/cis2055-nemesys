@@ -280,7 +280,7 @@ public class ReportController : Controller
                 return RedirectToAction(
                     actionName: "Show",
                     controllerName: "Report",
-                    new { id = updatedReport.Id }
+                    new { id = id }
                 );
             }
             else
@@ -324,7 +324,12 @@ public class ReportController : Controller
         // Check if has investigation
         if (report.Investigation != null)
         {
-            return Forbid();
+            TempData["danger"] = "Can not delete report with investigation.";
+
+            return RedirectToAction(
+                actionName: "MyReports",
+                controllerName: "Dashboard"
+            );
         }
 
         _nemesysRepository.DeleteReport(report);
@@ -357,7 +362,7 @@ public class ReportController : Controller
             file.CopyTo(bits);
         }
 
-        return path;
+        return "/images/reports/" + fileName;
     }
 }
 

@@ -1,0 +1,31 @@
+﻿@model ReportStatsViewModel;
+
+@using Microsoft.AspNetCore.Identity
+@using cis2055_nemesys.Models
+
+@inject UserManager<User> UserManager
+
+@{
+    ViewData["Title"] = "Hall of Fame";
+
+    int rank = 1;
+}
+
+<section class="section">
+    <div class="section__header">
+        <h5 class="section__title">@ViewData["Title"]</h5>
+    </div>
+
+    <div id="hall-of-fame">
+        @foreach (var user in Model.Users)
+        {
+            <div class="hof-item">
+                <div class="hof-item__name">
+                    <span class="hof-item__rank" data-rank="@(rank)">#@(rank++)</span>
+                    @user.FullName
+                </div>
+                <div class="hof-item__count">@user.TotalReports Reports</div>
+            </div>
+        }
+    </div>
+</section>

@@ -7,19 +7,22 @@
 
 @{
     ViewData["Title"] = "My Reports";
+    var showAll = Context.Request.Query["showAll"];
+    var inChecked = showAll == "true";
 }
 
 <section class="section">
     <div class="section__header">
         <h5 class="section__title">@ViewData["Title"]</h5>
-        <div>
+        <form method="get">
             <div class="form-check">
-                <input class="form-check-input" type="checkbox" value="" id="showAll">
+                <input class="form-check-input" type="checkbox" value="true" id="showAll" name="showAll"
+                       onchange="this.form.submit()" @(inChecked ? "checked" : "")>
                 <label class="form-check-label" for="showAll">
                     Show all
                 </label>
             </div>
-        </div>
+        </form>
     </div>
 
     <div class="reports">
