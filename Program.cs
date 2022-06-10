@@ -6,7 +6,6 @@ using cis2055_nemesys.Models.Repositories;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
 
 builder.Services
@@ -65,11 +64,6 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseSqlServer(connectionString)
 );
 
-// MySQL Server
-//builder.Services.AddDbContext<ApplicationDbContext>(options => 
-//    options.UseMysql(connectionString, ServerVersion.AutoDetect(connectionString))
-//);
-
 /**
  * +---------------------------------------------------------------+
  * |                      APPLICATION BUILDER                      |
@@ -91,18 +85,6 @@ app.UseStaticFiles();
 app.UseRouting();
 app.UseAuthentication();
 app.UseAuthorization();
-
-/*
-app.UseEndpoints(endpoints =>
-{
-    endpoints.MapControllerRoute(
-        name: "default",
-        pattern: "{controller=Home}/{action=Index}/{id?}"
-    );
-
-    endpoints.MapRazorPages();
-})
-*/
 
 app.MapControllerRoute(
     name: "default",

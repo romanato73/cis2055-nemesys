@@ -228,13 +228,13 @@ namespace cis2055_nemesys.Migrations
                         name: "FK_Upvotes_AspNetUsers_UserId",
                         column: x => x.UserId,
                         principalTable: "AspNetUsers",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "Id");
                     table.ForeignKey(
                         name: "FK_Upvotes_Reports_ReportId",
                         column: x => x.ReportId,
                         principalTable: "Reports",
-                        principalColumn: "Id");
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.InsertData(
@@ -242,6 +242,7 @@ namespace cis2055_nemesys.Migrations
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
                 values: new object[,]
                 {
+                    { "10996569-c42d-47e3-9821-65860ac72fcc", "1", "Guest", "GUEST" },
                     { "4ee3b560-ea8d-4ca9-a3fc-fd5ee8ce4e66", "1", "Reporter", "REPORTER" },
                     { "62906a75-2189-4edf-8f98-311705447a72", "1", "Investigator", "INVESTIGATOR" },
                     { "86d8d191-c517-4410-a8e2-a6c7b892f2d4", "1", "Admin", "ADMIN" }
@@ -250,12 +251,27 @@ namespace cis2055_nemesys.Migrations
             migrationBuilder.InsertData(
                 table: "AspNetUsers",
                 columns: new[] { "Id", "AccessFailedCount", "ConcurrencyStamp", "Discriminator", "Email", "EmailConfirmed", "FullName", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "SecurityStamp", "TwoFactorEnabled", "UserName" },
-                values: new object[] { "b19fe869-0b67-470c-ae88-3921fea1bef1", 0, "11030d44-ba2f-4a0b-9950-f06be3e61161", "User", "admin@nemesys.com", true, "NEMESYS", false, null, "ADMIN@NEMESYS.COM", "ADMIN@NEMESYS.COM", "AQAAAAEAACcQAAAAEBCcBJPBD9YkaH6HE1WZqtIgkBuYRxAN4KQ81HXxrLE2C9SLNuwlaA84DgUYNDbsnA==", "", false, "b62baf18-6c34-46dc-b88e-d2fba1dd2a91", false, "admin@nemesys.com" });
+                values: new object[,]
+                {
+                    { "b19fe869-0b67-470c-ae88-3921fea1bef1", 0, "c10cda97-d2c6-4c74-aedc-c392b101ad53", "User", "admin@nemesys.com", true, "NEMESYS", false, null, "ADMIN@NEMESYS.COM", "ADMIN@NEMESYS.COM", "AQAAAAEAACcQAAAAEBzMVcXAPQMEZi92jOWkerYBfGg64yVp3fg1gb4BAnkrd8lAn6ErCVUeb6TSaANr9g==", "", false, "df7d1cda-475c-4270-9e5f-8d8807f130f3", false, "admin@nemesys.com" },
+                    { "b19fe869-0b67-471c-ae88-3921fea1bef1", 0, "e8ba5464-d501-4fff-a49f-57391e009e36", "User", "reporter@nemesys.com", true, "REPORTER", false, null, "REPORTER@NEMESYS.COM", "REPORTER@NEMESYS.COM", "AQAAAAEAACcQAAAAEOH3MH1pd/4KxvSSDObglUbMKvvaDVe+KGGeTgHK+R6MEY6t742JRQiidx3LDOxqrw==", "", false, "5f17f1a4-6c41-458b-a07d-35bdac1d9708", false, "reporter@nemesys.com" },
+                    { "b19fe869-0b67-472c-ae88-3921fea1bef1", 0, "3422c01d-fbe7-4a3a-993f-2a39d75a1c1d", "User", "investigator@nemesys.com", true, "INVESTIGATOR", false, null, "INVESTIGATOR@NEMESYS.COM", "INVESTIGATOR@NEMESYS.COM", "AQAAAAEAACcQAAAAEMbIxx3SGB5N5GFw/N4UW525/zYSgDRE7K2pxNKxs8/HzvAAuUi4mJKKIltolX0THQ==", "", false, "bb46d8f0-fc41-4645-b04b-0aeb0d808187", false, "investigator@nemesys.com" }
+                });
 
             migrationBuilder.InsertData(
                 table: "AspNetUserRoles",
                 columns: new[] { "RoleId", "UserId" },
                 values: new object[] { "86d8d191-c517-4410-a8e2-a6c7b892f2d4", "b19fe869-0b67-470c-ae88-3921fea1bef1" });
+
+            migrationBuilder.InsertData(
+                table: "AspNetUserRoles",
+                columns: new[] { "RoleId", "UserId" },
+                values: new object[] { "4ee3b560-ea8d-4ca9-a3fc-fd5ee8ce4e66", "b19fe869-0b67-471c-ae88-3921fea1bef1" });
+
+            migrationBuilder.InsertData(
+                table: "AspNetUserRoles",
+                columns: new[] { "RoleId", "UserId" },
+                values: new object[] { "62906a75-2189-4edf-8f98-311705447a72", "b19fe869-0b67-472c-ae88-3921fea1bef1" });
 
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",

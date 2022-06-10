@@ -107,6 +107,13 @@ public class ApplicationDbContext : IdentityDbContext
                 Name = "Investigator",
                 ConcurrencyStamp = "1",
                 NormalizedName = "INVESTIGATOR"
+            },
+            new IdentityRole()
+            {
+                Id = "10996569-c42d-47e3-9821-65860ac72fcc",
+                Name = "Guest",
+                ConcurrencyStamp = "1",
+                NormalizedName = "GUEST"
             }
         );
 

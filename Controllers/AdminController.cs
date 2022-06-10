@@ -66,12 +66,17 @@ namespace cis2055_nemesys.Controllers
         /// <param name="userId">ID of User that we want to assign a role</param>
         [Authorize(Roles = "Admin")]
         [HttpGet]
-        [Route("assign/{userId}/role")]
+        [Route("Assign/{userId}/Role")]
         public IActionResult AssignRole(string userId)
         {
             try
             {
                 var user = _userManager.FindByIdAsync(userId).Result;
+
+                if (user == null)
+                {
+                    return NotFound();
+                }
 
                 var viewModel = new AssignRoleViewModel()
                 {

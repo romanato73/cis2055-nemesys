@@ -177,6 +177,13 @@ namespace cis2055_nemesys.Migrations
                             ConcurrencyStamp = "1",
                             Name = "Investigator",
                             NormalizedName = "INVESTIGATOR"
+                        },
+                        new
+                        {
+                            Id = "10996569-c42d-47e3-9821-65860ac72fcc",
+                            ConcurrencyStamp = "1",
+                            Name = "Guest",
+                            NormalizedName = "GUEST"
                         });
                 });
 
@@ -344,6 +351,16 @@ namespace cis2055_nemesys.Migrations
                         {
                             UserId = "b19fe869-0b67-470c-ae88-3921fea1bef1",
                             RoleId = "86d8d191-c517-4410-a8e2-a6c7b892f2d4"
+                        },
+                        new
+                        {
+                            UserId = "b19fe869-0b67-471c-ae88-3921fea1bef1",
+                            RoleId = "4ee3b560-ea8d-4ca9-a3fc-fd5ee8ce4e66"
+                        },
+                        new
+                        {
+                            UserId = "b19fe869-0b67-472c-ae88-3921fea1bef1",
+                            RoleId = "62906a75-2189-4edf-8f98-311705447a72"
                         });
                 });
 
@@ -383,19 +400,55 @@ namespace cis2055_nemesys.Migrations
                         {
                             Id = "b19fe869-0b67-470c-ae88-3921fea1bef1",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "11030d44-ba2f-4a0b-9950-f06be3e61161",
+                            ConcurrencyStamp = "c10cda97-d2c6-4c74-aedc-c392b101ad53",
                             Email = "admin@nemesys.com",
                             EmailConfirmed = true,
                             LockoutEnabled = false,
                             NormalizedEmail = "ADMIN@NEMESYS.COM",
                             NormalizedUserName = "ADMIN@NEMESYS.COM",
-                            PasswordHash = "AQAAAAEAACcQAAAAEBCcBJPBD9YkaH6HE1WZqtIgkBuYRxAN4KQ81HXxrLE2C9SLNuwlaA84DgUYNDbsnA==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEBzMVcXAPQMEZi92jOWkerYBfGg64yVp3fg1gb4BAnkrd8lAn6ErCVUeb6TSaANr9g==",
                             PhoneNumber = "",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "b62baf18-6c34-46dc-b88e-d2fba1dd2a91",
+                            SecurityStamp = "df7d1cda-475c-4270-9e5f-8d8807f130f3",
                             TwoFactorEnabled = false,
                             UserName = "admin@nemesys.com",
                             FullName = "NEMESYS"
+                        },
+                        new
+                        {
+                            Id = "b19fe869-0b67-471c-ae88-3921fea1bef1",
+                            AccessFailedCount = 0,
+                            ConcurrencyStamp = "e8ba5464-d501-4fff-a49f-57391e009e36",
+                            Email = "reporter@nemesys.com",
+                            EmailConfirmed = true,
+                            LockoutEnabled = false,
+                            NormalizedEmail = "REPORTER@NEMESYS.COM",
+                            NormalizedUserName = "REPORTER@NEMESYS.COM",
+                            PasswordHash = "AQAAAAEAACcQAAAAEOH3MH1pd/4KxvSSDObglUbMKvvaDVe+KGGeTgHK+R6MEY6t742JRQiidx3LDOxqrw==",
+                            PhoneNumber = "",
+                            PhoneNumberConfirmed = false,
+                            SecurityStamp = "5f17f1a4-6c41-458b-a07d-35bdac1d9708",
+                            TwoFactorEnabled = false,
+                            UserName = "reporter@nemesys.com",
+                            FullName = "REPORTER"
+                        },
+                        new
+                        {
+                            Id = "b19fe869-0b67-472c-ae88-3921fea1bef1",
+                            AccessFailedCount = 0,
+                            ConcurrencyStamp = "3422c01d-fbe7-4a3a-993f-2a39d75a1c1d",
+                            Email = "investigator@nemesys.com",
+                            EmailConfirmed = true,
+                            LockoutEnabled = false,
+                            NormalizedEmail = "INVESTIGATOR@NEMESYS.COM",
+                            NormalizedUserName = "INVESTIGATOR@NEMESYS.COM",
+                            PasswordHash = "AQAAAAEAACcQAAAAEMbIxx3SGB5N5GFw/N4UW525/zYSgDRE7K2pxNKxs8/HzvAAuUi4mJKKIltolX0THQ==",
+                            PhoneNumber = "",
+                            PhoneNumberConfirmed = false,
+                            SecurityStamp = "bb46d8f0-fc41-4645-b04b-0aeb0d808187",
+                            TwoFactorEnabled = false,
+                            UserName = "investigator@nemesys.com",
+                            FullName = "INVESTIGATOR"
                         });
                 });
 
@@ -434,13 +487,13 @@ namespace cis2055_nemesys.Migrations
                     b.HasOne("cis2055_nemesys.Models.Report", "Report")
                         .WithMany("Upvotes")
                         .HasForeignKey("ReportId")
-                        .OnDelete(DeleteBehavior.NoAction)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("cis2055_nemesys.Models.User", "User")
                         .WithMany()
                         .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.Navigation("Report");
