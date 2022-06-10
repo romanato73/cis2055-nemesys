@@ -466,7 +466,7 @@ public class NemesysRepository : INemesysRepository
      */
 
     /// <summary>
-    /// 
+    /// Get the stats for hall of fame
     /// </summary>
     /// <returns></returns>
     public IEnumerable<Report> GetReportsForStatistics()
